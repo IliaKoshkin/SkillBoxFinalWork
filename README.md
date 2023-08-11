@@ -35,7 +35,7 @@ VPN (англ. virtual private network — «виртуальная частна
 ```
 sudo dpkg -i ~/easy-rsa-setup_1.0-1_all.deb
 ```
-После установки пакета в директории /tmp появится скрипт easy-rsa-setup.sh и конфигурационный файл vars. Нужно запустить этот скрипт. Он запустит установку easy-rsa и развернет инфраструктуры ключей на основе конфига vars.
+После установки пакета в директории /tmp появится скрипт [easy-rsa-setup.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/easy-rsa-setup.sh) и конфигурационный файл [vars](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/vars). Нужно запустить этот скрипт. Он запустит установку easy-rsa и развернет инфраструктуры ключей на основе конфига [vars](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/vars).
 
 ```
 sudo /tmp/easy-rsa-setup.sh
@@ -49,7 +49,7 @@ sudo /tmp/easy-rsa-setup.sh
 sudo dpkg -i ~/openvpn-setup_1.0-1_all.deb
 ```
 
-После установки пакета в директории /tmp появится скрипт openvpn-setup.sh и конфигурационный файл server.conf. Нужно запустить этот скрипт. Он запустит установку openvpn и подменить рабочий файл с конфигурациями сервера.
+После установки пакета в директории /tmp появится скрипт [openvpn-setup.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/openvpn-setup.sh) и конфигурационный файл [server.conf](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/server.conf). Нужно запустить этот скрипт. Он запустит установку openvpn и добавит рабочий конфигурационный файл для сервера.
 
 ```
 sudo /tmp/openvpn-setup.sh
