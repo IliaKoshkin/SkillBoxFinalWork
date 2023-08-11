@@ -30,7 +30,7 @@ VPN (англ. virtual private network — «виртуальная частна
 
 #### Создание удостоверяющего центра EasyRSA ####
 
-Установить деб-пакет [easy-rsa-setup_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/easy-rsa-setup_1.0-1_all.deb)
+На выделенной машине установить деб-пакет [easy-rsa-setup_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/easy-rsa-setup_1.0-1_all.deb)
 
 ```
 sudo dpkg -i ~/easy-rsa-setup_1.0-1_all.deb
@@ -41,7 +41,19 @@ sudo dpkg -i ~/easy-rsa-setup_1.0-1_all.deb
 sudo /tmp/easy-rsa-setup.sh
 ```
 
-#### Создание удостоверяющего центра EasyRSA ####
+#### Установка OpenVPN сервера ####
+
+На выделенной машине установить деб-пакет [openvpn-setup_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/openvpn-setup_1.0-1_all.deb)
+
+```
+sudo dpkg -i ~/openvpn-setup_1.0-1_all.deb
+```
+
+После установки пакета в директории /tmp появится скрипт openvpn-setup.sh и конфигурационный файл server.conf. Нужно запустить этот скрипт. Он запустит установку openvpn и подменить рабочий файл с конфигурациями сервера.
+
+```
+sudo /tmp/openvpn-setup.sh
+```
 
 ### Добавление доступа к VPN клиенту ###
 
