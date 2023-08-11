@@ -28,18 +28,20 @@ VPN (англ. virtual private network — «виртуальная частна
 
 ### Создание инфраструктуры ###
 
-#### Создание CA ####
+#### Создание удостоверяющего центра EasyRSA ####
 
-На выделенной машине установить EasyRSA
-
-```
-sudo apt install easy-rsa
-```
-Далее установить деб-пакет easy-rsa.deb, содержащий конфигурационный файл и скрипт postint, запускающий команды по генерации ключей:
+Установить деб-пакет [easy-rsa-setup_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/easy-rsa-setup_1.0-1_all.deb)
 
 ```
-sudo dpkg -i <директория в которой находится деб-пакет>/easy-rsa.deb
+sudo dpkg -i ~/easy-rsa-setup_1.0-1_all.deb
 ```
+После установки пакета в директории /tmp появится скрипт easy-rsa-setup.sh и конфигурационный файл vars. Нужно запустить этот скрипт. Он запустит установку easy-rsa и развернет инфраструктуры ключей на основе конфига vars.
+
+```
+sudo /tmp/easy-rsa-setup.sh
+```
+
+#### Создание удостоверяющего центра EasyRSA ####
 
 ### Добавление доступа к VPN клиенту ###
 
