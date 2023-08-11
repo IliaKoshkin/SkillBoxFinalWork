@@ -57,6 +57,13 @@ sudo /tmp/openvpn-setup.sh
 
 ### Добавление доступа к VPN клиенту ###
 
+На сервере OpenVPN устновить деб-пакет [openvpn-scripts_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/openvpn-scripts_1.0-1_all.deb).
+После установки пакета в директории /home/yc-user/openvpn_scripts появятся скрипты:
+- (gen-server-sert-and-key-pair.sh)[https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/gen-server-sert-and-key-pair.sh]
+- (gen-client-sert-and-key-pair.sh)[https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/gen-client-sert-and-key-pair.sh]
+- (iptables-conf.sh)[https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/iptables-conf.sh]
+- (copy-server-and-ca-sert-to-openvpn.sh)[https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/copy-server-and-ca-sert-to-openvpn.sh]
+
 Необходимо под пользователем yc-user на сервере Openvpn запустить скрипт с параметром client_name - имя клиента:
 
 ```
