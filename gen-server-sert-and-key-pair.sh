@@ -4,7 +4,7 @@ set -e
 
 SEP="\n\n##################################################################################################\n\n"
 
-EASYRSA_DIR='/home/yc-user/easy-rsa/'
+EASYRSA_DIR='/usr/share/easy-rsa/'
 EASYRSA_SCRIPT=${EASYRSA_DIR}'easyrsa'
 PKI_DIR=${EASYRSA_DIR}'pki/'
 OPENVPN_DIR='/etc/openvpn/'
