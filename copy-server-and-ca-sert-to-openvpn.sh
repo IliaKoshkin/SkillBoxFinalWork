@@ -1,7 +1,9 @@
 #!/bin/bash
 
+set -e
+
 SEP="\n\n##################################################################################################\n\n"
-EASYRSA_DIR='/home/yc-user/easy-rsa/'
+EASYRSA_DIR='/usr/share/easy-rsa/'
 
 echo -e ${SEP}
 
@@ -24,3 +26,5 @@ echo -e ${SEP}
 echo -e 'END WORK OF SCRIPT'
 
 echo -e ${SEP}
+
+exit 0
