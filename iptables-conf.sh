@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 eth=$1
 proto=$2
 port=$3 
@@ -13,3 +15,5 @@ iptables -A FORWARD -i tun+ -o "$eth" -m state --state RELATED,ESTABLISHED -j AC
 iptables -A FORWARD -i "$eth" -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT
 # NAT the VPN client traffic to the internet
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o "$eth" -j MASQUERADE
+
+exit 0
