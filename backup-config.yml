@@ -1,0 +1,17 @@
+- host: easy-rsa
+  dir_from: /home/yc-user/easy-rsa/pki
+  dir_to: /home/ilkosh/backup/backup-EasyRSA
+  exclude_files:
+    - ca.key
+
+- host: easy-rsa
+  dir_from: /usr/share/easy-rsa/
+  dir_to: /home/ilkosh/backup/backup-EasyRSA
+
+- host: prometheus 
+  dir_from: /etc/prometheus/
+  dir_to: /home/ilkosh/backup/prometheus
+  
+- host: open-vpn
+  dir_from: ~/openvpn_scripts
+  dir_to: /home/ilkosh/backup/openvpn
