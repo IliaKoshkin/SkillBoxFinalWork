@@ -72,7 +72,7 @@ sudo /tmp/openvpn-setup.sh
 Далее следует переместить сертификаты из директории /tmp в директорию сервера /etc/openvpn и создать ключ ta.key для дополнительного шифрования. Для этого надо запустить скрипт:
 
 ```
-/usr/share//openvpn_scripts/copy-server-and-ca-sert-to-openvpn.sh
+/usr/share/openvpn_scripts/copy-server-and-ca-sert-to-openvpn.sh
 ```
 
 - [x] Для настройки безопасности на сервере OpenVPN необходимо выполнить следующие действия:
@@ -83,7 +83,7 @@ ip a
 
 #запустить скрипт с указанными параметрами:
 
-/usr/share//openvpn_scripts/iptables-conf.sh <имя_интерфейса> udp 1194
+/usr/share/openvpn_scripts/iptables-conf.sh <имя_интерфейса> udp 1194
  
 ```
 
@@ -148,9 +148,11 @@ sudo systemctl start openvpn-client@client_name
 7. Инфраструктуры EasyRSA
    - расположение
 
-Резервное копирование осуществляется централизовано на сервере *192.168.100.9* с помощью скрипта backup.py, который хранится в директории *192.168.100.9:/home/ilkosh/backup_scripts/backup.py* и который пишет лог в *192.168.100.9:/home/ilkosh/backup_log/backup.log.* Скрипт запускается в кроне каждую неделю.
+Резервное копирование осуществляется централизовано на сервере *192.168.100.9* с помощью скрипта [backup.py](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/backup.py), который хранится в директории *192.168.100.9:/usr/share/backup_scripts/backup.py* и который пишет лог в *192.168.100.9:/var/log/backup_log/backup.log.* Скрипт запускается в кроне каждую неделю.
 
-Скрипт backup.py имеет конфигурационный файл в формате YAML, который находится в *192.168.100.9:/home/ilkosh/backup_scripts/backup-config.yml*
+Скрипт [backup.py](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/backup.py) имеет конфигурационный файл в формате YAML, который находится в *192.168.100.9:/home/ilkosh/backup_scripts/backup-config.yml*
+
+Пример конфигурационного файла: [backup-config.yml](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/backup-config.yml)
 
 Данный конфигурационный файл имеет следующий формат настроек:
 
@@ -161,6 +163,26 @@ sudo systemctl start openvpn-client@client_name
      exclude_files: #не обязательное поле. файлы который нужно исключить из бекапа, перечисляются как список 
        - filename
 ```
+
+#### Установка системы резервного копирования ####
+***
+
+На backup сервере необходимо установить деб-пакет [backup-scripts_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/backup-scripts_1.0-1_all.deb).
+  ```
+  sudo apt install -f ./backup-scripts_1.0-1_all.deb
+  ```
+
+_Для информации: данный деб пакет имеет зависимость от пакета python3, также приустановке пакета запускается скрипт postinst, который устанавливает библиотеку pyyaml для Python, так как скрипт бэкапа загружает ее при запуске._
+
+После установки деб пакета скрипт и конфигурационный файл появятся в директории /usr/share/backup_scripts
+Для корректной работы системы бекапа нужно запускать скрипт backup.py в кроне, пример записи в кроне:
+
+  ```
+  00 23 * * 1 /usr/share/backup_scripts/backup.py
+  ```
+***
+#### Действия при необходимости восстановления данных ####
+
 При необходимости восстановить данные необходимо на сервере *192.168.100.9* по пользователем ilkosh выполнить следующие команды:
 
 - восстановление конфигурационного файла OpenVPN:
