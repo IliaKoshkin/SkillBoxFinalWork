@@ -177,4 +177,35 @@ sudo systemctl start openvpn-client@client_name
   ```
 
 ### Описание системы мониторинга ###
+#### Установка Prometheus сервера ####
+
+На хост Prometheus необходимо скачать деб-пакет [prometheus-conf_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/prometheus-conf_1.0-1_all.deb). В директории куда скачан деб-пакет выполнить:
+
+  ```
+  sudo apt install -f ./prometheus-conf_1.0-1_all.deb
+  ```
+Для справки: в установленном деб-пакете заданы зависимости prometheus, prometheus-alertmanager, prometheus-node-exporter, prometheus-process-exporter. После установки зависимостей устанавливаются конфигурационные файлы prometheus.yml.new и rules.yml.new, которые скриптом postint заменяют стандартные файлы конфигурации в /etc/prometheus.
 ***
+#### Настройка таргетов #####
+
+ЧТобы на сервер Prometheus получать метрики от таргетов (хостов), необходимо установить на этих машинах соответствующие экспортеры, например prometheus-node-exporter, prometheus-process-exporter с помощью команды
+  ```
+  sudo apt install <название_эксмпортера_прометеус>
+  ```
+***
+#### Конфигурирование Prometheus сервера ####
+
+На сервер Prometheus необходимо установить деб-пакет [set-alert-job-scripts_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/set-alert-job-scripts_1.0-1_all.deb).
+  ```
+  sudo dpkg -i ./set-alert-job-scripts_1.0-1_all.deb
+  ```
+После установки деб-пакета в директории /usr/share/prometheus_scripts добавятся два скрипта: [add_new_prometheus_job.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/add_new_prometheus_job.sh) [add_new_prometheus_node_rules.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/add_new_prometheus_node_rules.sh)
+
+С помощью скрипта [add_new_prometheus_job.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/add_new_prometheus_job.sh) можно поставить на мониторинг новый таргет (хост), с помощью опций --client и --ip указав имя таргета и его ip адрес соответственно:
+  ```
+  /usr/share/prometheus_scripts/add_new_prometheus_job.sh --client <client_name> --ip <ip_adress>
+  ```
+С помощью скрипта [add_new_prometheus_node_rules.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/add_new_prometheus_node_rules.sh) можно автоматически настроить мониторинг основных показателей работы хоста: ЦПУ, оперативная память, общая доступность, с помощью опций --client и --ip указав имя таргета и его ip адрес соответственно:
+  ```
+  /usr/share/prometheus_scripts/add_new_prometheus_node_rules.sh --client <client_name> --ip <ip_adress>
+  ```
