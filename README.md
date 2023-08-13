@@ -27,7 +27,7 @@ VPN (англ. virtual private network — «виртуальная частна
 Сервер Openvpn расположен по адресу 158.160.37.149 на виртуальной машине запущенной в облаке Yandex Cloud, необходимо подключаться под пользователем yc-user.
 
 ### Создание инфраструктуры ###
-
+***
 #### Создание удостоверяющего центра EasyRSA ####
 
 На выделенной машине установить деб-пакет [easy-rsa-setup_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/easy-rsa-setup_1.0-1_all.deb)
@@ -35,11 +35,13 @@ VPN (англ. virtual private network — «виртуальная частна
 ```
 sudo dpkg -i ~/easy-rsa-setup_1.0-1_all.deb
 ```
-После установки пакета в директории /tmp появится скрипт [easy-rsa-setup.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/easy-rsa-setup.sh) и конфигурационный файл [vars](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/vars). Нужно запустить этот скрипт. Он запустит установку easy-rsa и развернет инфраструктуры ключей на основе конфига [vars](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/vars).
+После установки пакета в директории /tmp появится скрипт [easy-rsa-setup.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/easy-rsa-setup.sh) и конфигурационный файл [vars](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/vars). Нужно запустить этот скрипт. Он запустит установку easy-rsa и развернет инфраструктуры ключей на основе конфига [vars](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/vars) в директории /usr/share/easy-rsa
 
 ```
 sudo /tmp/easy-rsa-setup.sh
 ```
+Нужно выполнить на сервере EasyRSA и сервере OpenVPN
+
 
 #### Установка OpenVPN сервера ####
 
@@ -55,19 +57,50 @@ sudo dpkg -i ~/openvpn-setup_1.0-1_all.deb
 sudo /tmp/openvpn-setup.sh
 ```
 
-### Добавление доступа к VPN клиенту ###
-
-На сервере OpenVPN устновить деб-пакет [openvpn-scripts_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/openvpn-scripts_1.0-1_all.deb).
-После установки пакета в директории /home/yc-user/openvpn_scripts появятся скрипты:
+Далее на сервере OpenVPN установить деб-пакет [openvpn-scripts_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/openvpn-scripts_1.0-1_all.deb).
+После установки пакета появится директория /usr/share/openvpn_scripts и в ней будут находиться скрипты:
 - [gen-server-sert-and-key-pair.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/gen-server-sert-and-key-pair.sh)
 - [gen-client-sert-and-key-pair.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/gen-client-sert-and-key-pair.sh)
 - [iptables-conf.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/iptables-conf.sh)
 - [copy-server-and-ca-sert-to-openvpn.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/copy-server-and-ca-sert-to-openvpn.sh)
 
-Необходимо под пользователем yc-user на сервере Openvpn запустить скрипт с параметром client_name - имя клиента:
+- [x] Для создания сертификата для сервера OpenVPN необходимо запустить под yc-user скрипт
+```
+/usr/share/openvpn_scripts/gen-server-sert-and-key-pair.sh
+```
+При успешном выполнении скрипта подписанный удостоверяющим центром сертификат будет лежать в директории /tmp.
+Далее следует переместить сертификаты из директории /tmp в директорию сервера /etc/openvpn и создать ключ ta.key для дополнительного шифрования. Для этого надо запустить скрипт:
 
 ```
-~/openvpn_scripts/gen-client-sert-and-key-pair.sh <client-name>
+/usr/share//openvpn_scripts/copy-server-and-ca-sert-to-openvpn.sh
+```
+
+- [x] Для настройки безопасности на сервере OpenVPN необходимо выполнить следующие действия:
+```
+#узнать имя сетевого интерфейса
+ip a
+#скопировать имя интерфейса
+
+#запустить скрипт с указанными параметрами:
+
+/usr/share//openvpn_scripts/iptables-conf.sh <имя_интерфейса> udp 1194
+ 
+```
+
+Добавить OpenVPN  в автозагрузку:
+```
+sudo systemctl -f enable openvpn-server@server.service
+ 
+```
+Запустить OpenVPN сервер:
+```
+sudo systemctl start openvpn-server@server.service
+ 
+```
+- [x] Для создания сертификата для клиента необходимо под пользователем yc-user на сервере Openvpn запустить скрипт с параметром client_name - имя клиента:
+
+```
+/usr/share/openvpn_scripts/gen-client-sert-and-key-pair.sh <client-name>
 ```
 Скрипт отправляет запрос на подпись сертификата клиента в EasyRSA и размещает подписанный сертификат <client_name>.crt в директорию ~/client-configs/keys
 
@@ -96,11 +129,11 @@ sudo apt install openvpn;
 После этого на машине клиента запустить сервис openvpn.client:
 
 ```
-sudo systemctl start openvpn.client
+sudo systemctl start openvpn-client@client_name
 ```
 
 ### Процедура восстановления ###
-
+***
 При эксплуатации инфраструктуры требуется осуществление резервного копирования следующих данных:
 
 1. Файл конфигурации OpenVPN сервера
@@ -144,3 +177,4 @@ sudo systemctl start openvpn.client
   ```
 
 ### Описание системы мониторинга ###
+***
