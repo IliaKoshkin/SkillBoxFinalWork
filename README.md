@@ -215,7 +215,7 @@ _Для информации: данный деб пакет имеет зави
   ```
   sudo apt install -f ./prometheus-conf_1.0-1_all.deb
   ```
-Для справки: в установленном деб-пакете заданы зависимости prometheus, prometheus-alertmanager, prometheus-node-exporter, prometheus-process-exporter. После установки зависимостей устанавливаются преднастроенные конфигурационные файлы prometheus.yml.new, alertmanager.yml.new и rules.yml.new, которые скриптом postint заменяют стандартные файлы конфигурации в /etc/prometheus.
+_Для справки: в установленном деб-пакете заданы зависимости prometheus, prometheus-alertmanager, prometheus-node-exporter, prometheus-process-exporter. После установки зависимостей устанавливаются преднастроенные конфигурационные файлы prometheus.yml.new, alertmanager.yml.new и rules.yml.new, которые скриптом postint заменяют стандартные файлы конфигурации в /etc/prometheus._
 ***
 #### Настройка таргетов #####
 
