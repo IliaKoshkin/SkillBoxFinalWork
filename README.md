@@ -184,7 +184,7 @@ sudo systemctl start openvpn-client@client_name
   ```
   sudo apt install -f ./prometheus-conf_1.0-1_all.deb
   ```
-Для справки: в установленном деб-пакете заданы зависимости prometheus, prometheus-alertmanager, prometheus-node-exporter, prometheus-process-exporter. После установки зависимостей устанавливаются конфигурационные файлы prometheus.yml.new и rules.yml.new, которые скриптом postint заменяют стандартные файлы конфигурации в /etc/prometheus.
+Для справки: в установленном деб-пакете заданы зависимости prometheus, prometheus-alertmanager, prometheus-node-exporter, prometheus-process-exporter. После установки зависимостей устанавливаются преднастроенные конфигурационные файлы prometheus.yml.new, alertmanager.yml.new и rules.yml.new, которые скриптом postint заменяют стандартные файлы конфигурации в /etc/prometheus.
 ***
 #### Настройка таргетов #####
 
@@ -209,3 +209,9 @@ sudo systemctl start openvpn-client@client_name
   ```
   /usr/share/prometheus_scripts/add_new_prometheus_node_rules.sh --client <client_name> --ip <ip_adress>
   ```
+***
+#### Оповещение #####
+
+При установке деб пакета [prometheus-conf_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/prometheus-conf_1.0-1_all.deb) на сервер Prometheus устанавливается Alertmanager с преднастроенным конфигурационным файлом alertmanager.yml.
+
+Alertmanager отправляет алерты по протоколу SMTP на почту mr.koshkin.iu@yandex.ru
