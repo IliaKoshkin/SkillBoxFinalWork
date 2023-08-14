@@ -28,6 +28,30 @@ VPN (англ. virtual private network — «виртуальная частна
 
 ### Создание инфраструктуры ###
 ***
+
+#### Создание ВМ на Yandex Cloud ####
+***
+
+На машине 192.168.100.6 устовлена и настроена утилита yc для работы с облаком.
+
+Создание новой виртуальной машины на облаке автоматизировано с помощью скрипта [create_vm_in_cloud.sh](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/create_vm_in_cloud.sh) под пользователеем ilkosh.
+
+__Для иформации: чтобы начать работу с облаком с другой машины, нужно воспользоваться инструкцией [YC QuickStart](https://cloud.yandex.ru/docs/cli/quickstart).__
+
+Для вызова справки по скрипту нужно запустить его без параметров:
+
+```
+./create_vm_in_cloud.sh
+```
+[Пример вывода справки](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/Snag_185aa5f2.png)
+
+[Пример запуска с параметрами](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/Snag_185cb8a5.png), [Штатное завершение](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/Snag_185db9ba.png)
+
+При успешном запуске скрипт создаст ВМ с заданными параметрами (имя, количество ядер, RAM) И выдаст подробную информацию о созданной ВМ. Подключаться к ней можно через ssh использую закрытый ключ /home/ilkosh/.ssh/yacloud_key_id_01.
+
+__Для информации: в скрипте есть проверка на наличие на машине пары ключей yacloud_key_id_01, yacloud_key_id_01.pub, если требуется подключаться к ВМ по другому ключу его необходимо создать и скорректировать скрипт. Также это актуально при запуске скрипта на другой машине.__
+
+
 #### Создание удостоверяющего центра EasyRSA ####
 
 На выделенной машине установить деб-пакет [easy-rsa-setup_1.0-1_all.deb](https://github.com/IliaKoshkin/SkillBoxFinalWork/blob/main/easy-rsa-setup_1.0-1_all.deb)
